@@ -222,6 +222,11 @@ def main(argv: Iterable[str] | None = None) -> int:
         help="Write repaired JSON to a file",
     )
     parser.add_argument(
+        "--in-place",
+        action="store_true",
+        help="Overwrite the input file with the repaired JSON",
+    )
+    parser.add_argument(
         "--quiet",
         action="store_true",
         help="Suppress normal output on success",
@@ -245,9 +250,13 @@ def main(argv: Iterable[str] | None = None) -> int:
             duplicate_keys=args.duplicate_keys,
             pretty=args.pretty,
         )
-        if args.output is not None:
+        if args.in_place:
+            if args.input is None:
+                raise LagaError("--in-place requires --input", 0)
+            args.input.write_text(rendered + "\n", encoding="utf-8")
+        elif args.output is not None:
             args.output.write_text(rendered + "\n", encoding="utf-8")
-        if args.output is None and not args.quiet:
+        if not args.in_place and args.output is None and not args.quiet:
             print(rendered)
     except LagaError as exc:
         print(str(exc), file=sys.stderr)

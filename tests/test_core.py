@@ -148,6 +148,22 @@ def test_main_reads_input_file_and_writes_output(
     assert output_path.read_text(encoding="utf-8") == expected
 
 
+def test_main_can_update_input_file_in_place(
+    tmp_path,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    input_path = tmp_path / "sample.json"
+    input_path.write_text('{name: "Ada", active: True}', encoding="utf-8")
+
+    exit_code = core.main(["--input", str(input_path), "--in-place", "--pretty"])
+    captured = capsys.readouterr()
+    expected = '{\n  "name": "Ada",\n  "active": true\n}\n'
+
+    assert exit_code == 0
+    assert captured.out == ""
+    assert input_path.read_text(encoding="utf-8") == expected
+
+
 def test_main_can_be_quiet(
     monkeypatch: pytest.MonkeyPatch,
     capsys: pytest.CaptureFixture[str],

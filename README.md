@@ -52,11 +52,12 @@ laga --strict '{"a": 1,}'
 
 Use `--strict` when you want to reject ambiguous repairs instead of filling in gaps.
 Use `--pretty` to format output for humans, `--stdin` to read from standard input, and `--duplicate-keys error` when duplicate keys should fail.
-Use `--input` to read from a file and `--output` to write the repaired result back to disk.
+Use `--input` to read from a file, `--output` to write the repaired result back to disk, or `--in-place` to overwrite the input file directly.
 
 ```bash
 laga --stdin --pretty
 laga --input sample.txt --output fixed.json
+laga --input sample.txt --in-place --pretty
 laga --max-depth 64 --max-input-size 10000 --duplicate-keys error '{"a": 1}'
 ```
 

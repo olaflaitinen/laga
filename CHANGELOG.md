@@ -15,7 +15,8 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ### Added
 
-- Version bump and documentation alignment for the 0.1.5 release.
+- Added `--in-place` support to the CLI so repaired JSON can overwrite the input file directly.
+- Expanded docs and release notes to describe the new CLI workflow clearly.
 
 ## [0.1.4] - 2026-07-24
 
