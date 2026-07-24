@@ -3,7 +3,7 @@ message: >-
   If you use laga in academic work, research notes, or other formal writing,
   please cite the project using the metadata below.
 title: "laga"
-version: "0.1.4"
+version: "0.1.5"
 date-released: "2026-07-24"
 repository-code: "https://github.com/olaflaitinen/laga"
 url: "https://github.com/olaflaitinen/laga"
@@ -23,7 +23,7 @@ authors:
 preferred-citation:
   type: software
   title: "laga"
-  version: "0.1.4"
+  version: "0.1.5"
   authors:
     - family-names: "Laitinen-Fredriksson Lundström-Imanov"
       given-names: "Gustav Olaf Yunus"

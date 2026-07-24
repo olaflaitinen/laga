@@ -13,7 +13,7 @@ It is built for the real world: model output, hand-written config, copied snippe
 
 ## Supported Versions
 
-`laga` 0.1.4 supports Python 3.10 through 3.13.
+`laga` 0.1.5 supports Python 3.10 through 3.13.
 
 ## Install
 
@@ -143,5 +143,5 @@ If you use `laga` in academic work, research notes, or other formal writing, ple
 Suggested citation format:
 
 ```text
-Laitinen-Fredriksson Lundström-Imanov, G. O. Y. (2026). laga (Version 0.1.3) [Computer software]. https://github.com/olaflaitinen/laga
+Laitinen-Fredriksson Lundström-Imanov, G. O. Y. (2026). laga (Version 0.1.5) [Computer software]. https://github.com/olaflaitinen/laga
 ```

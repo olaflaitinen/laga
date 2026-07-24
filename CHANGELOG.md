@@ -11,6 +11,12 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 - Repository citation metadata and README citation guidance.
 
+## [0.1.5] - 2026-07-24
+
+### Added
+
+- Version bump and documentation alignment for the 0.1.5 release.
+
 ## [0.1.4] - 2026-07-24
 
 ### Added
