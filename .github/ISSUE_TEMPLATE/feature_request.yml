@@ -1,0 +1,124 @@
+name: Feature request
+description: Suggest an improvement, capability, or workflow enhancement for laga.
+title: "Feature: "
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting an improvement.
+
+        The most useful requests explain the current limitation, the user impact, and the exact behavior you want.
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      description: Which part of laga would this affect?
+      options:
+        - Public API
+        - CLI
+        - Parser / repair behavior
+        - Tokenizer
+        - Documentation
+        - Packaging / release
+        - Tests / CI
+        - New capability
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: How important is this request to you?
+      options:
+        - Critical
+        - High
+        - Medium
+        - Low
+        - Nice to have
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem statement
+      description: Describe the limitation or pain point you are trying to solve.
+      placeholder: Today I have to ... which causes ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: goal
+    attributes:
+      label: Desired outcome
+      description: Describe the behavior, output, or workflow you want.
+      placeholder: laga should be able to ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: user_story
+    attributes:
+      label: User story
+      description: Optional, but helpful if you can describe who needs this and why.
+      placeholder: As a ... I want ... so that ...
+
+  - type: textarea
+    id: examples
+    attributes:
+      label: Example input or API shape
+      description: Show a concrete example of the proposed behavior.
+      render: text
+      placeholder: |
+        laga.repair('{name: "Ada"}')
+        # could optionally return ...
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Describe other approaches you evaluated and why they were not enough.
+      placeholder: |
+        1. Use a post-processing step
+        2. Wrap laga in custom logic
+        3. Change upstream data generation
+
+  - type: textarea
+    id: tradeoffs
+    attributes:
+      label: Tradeoffs and constraints
+      description: Mention any compatibility, performance, or maintenance concerns we should keep in mind.
+      placeholder: This should remain backwards compatible with ...
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: What would make this feature request complete?
+      placeholder: |
+        - Works with ...
+        - Does not break ...
+        - Includes tests/docs ...
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Add links, screenshots, related issues, or any notes that help frame the request.
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Confirmation checklist
+      options:
+        - label: I searched existing issues and discussions before opening this request.
+          required: true
+        - label: I explained the problem and not just the solution.
+          required: true
+        - label: I included a concrete example or user story.
+          required: true
