@@ -123,5 +123,5 @@ If you use `laga` in academic work, research notes, or other formal writing, ple
 Suggested citation format:
 
 ```text
-Gustav Olaf Yunus Laitinen-Fredriksson Lundström-Imanov. laga: Repair malformed JSON from language models and hand-written config. https://github.com/olaflaitinen/laga
+Laitinen-Fredriksson Lundström-Imanov, G. O. Y. (2026). laga (Version 0.1.1) [Computer software]. https://github.com/olaflaitinen/laga
 ```
