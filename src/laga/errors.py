@@ -13,12 +13,18 @@ class LagaError(ValueError):
         self,
         message: str,
         position: int | None = None,
+        line: int | None = None,
+        column: int | None = None,
         context: str | None = None,
     ) -> None:
         self.message = message
         self.position = position
+        self.line = line
+        self.column = column
         self.context = context
-        if position is None:
+        if line is not None and column is not None:
+            formatted = f"{message} at line {line}, column {column}"
+        elif position is None:
             formatted = message
         else:
             formatted = f"{message} at position {position}"

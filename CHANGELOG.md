@@ -11,6 +11,18 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 - Repository citation metadata and README citation guidance.
 
+## [0.1.4] - 2026-07-24
+
+### Added
+
+- File-based repair helper, CLI file input/output support, and compact/pretty output controls.
+- Line-and-column context in error messages for easier debugging.
+- README and API guidance for choosing between `json.loads`, `repair`, and `repair_file`.
+
+### Changed
+
+- Expanded usage docs, API docs, and release notes to match the new CLI and helper surface.
+
 ## [0.1.3] - 2026-07-24
 
 ### Added

@@ -44,6 +44,12 @@ def test_repair_to_str_pretty_formats_output() -> None:
     assert laga.repair_to_str(text, pretty=True) == '{\n  "a": 1\n}'
 
 
+def test_repair_file_reads_file(tmp_path) -> None:
+    path = tmp_path / "sample.json"
+    path.write_text('{"a": 1,}', encoding="utf-8")
+    assert laga.repair_file(path) == {"a": 1}
+
+
 def test_loads_is_alias() -> None:
     text = '{"a": 1}'
     assert laga.loads(text) == {"a": 1}
@@ -85,6 +91,8 @@ def test_unrecoverable_input_raises_laga_error() -> None:
     with pytest.raises(LagaError, match="Unexpected identifier") as excinfo:
         laga.repair("not json at all")
     assert excinfo.value.context is not None
+    assert excinfo.value.line == 1
+    assert excinfo.value.column == 1
     assert "near" in str(excinfo.value)
 
 
@@ -121,6 +129,25 @@ def test_main_reads_stdin_and_pretty_prints(
     assert captured.out == '{\n  "a": 1\n}\n'
 
 
+def test_main_reads_input_file_and_writes_output(
+    tmp_path,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    input_path = tmp_path / "sample.json"
+    output_path = tmp_path / "fixed.json"
+    input_path.write_text('{name: "Ada", active: True}', encoding="utf-8")
+
+    exit_code = core.main(
+        ["--input", str(input_path), "--output", str(output_path), "--pretty"]
+    )
+    captured = capsys.readouterr()
+    expected = '{\n  "name": "Ada",\n  "active": true\n}\n'
+
+    assert exit_code == 0
+    assert captured.out == ""
+    assert output_path.read_text(encoding="utf-8") == expected
+
+
 def test_main_can_be_quiet(
     monkeypatch: pytest.MonkeyPatch,
     capsys: pytest.CaptureFixture[str],
@@ -130,3 +157,11 @@ def test_main_can_be_quiet(
     captured = capsys.readouterr()
     assert exit_code == 0
     assert captured.out == ""
+
+
+def test_main_reports_line_and_column_on_failure(
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    assert core.main(["not json at all"]) == 1
+    captured = capsys.readouterr()
+    assert "line 1, column 1" in captured.err

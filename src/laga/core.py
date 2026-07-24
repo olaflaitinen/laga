@@ -2,12 +2,13 @@ from __future__ import annotations
 
 import json
 from collections.abc import Iterable
+from pathlib import Path
 from typing import Any, Literal
 
 from .errors import LagaError
 from .tokenizer import _Token, _Tokenizer
 
-__all__ = ["loads", "main", "repair", "repair_to_str"]
+__all__ = ["loads", "main", "repair", "repair_file", "repair_to_str"]
 
 _MAX_NESTING_DEPTH = 256
 _MAX_INPUT_SIZE: int | None = None
@@ -126,6 +127,38 @@ def repair_to_str(
 loads = repair
 
 
+def repair_file(
+    path: str | Path,
+    *,
+    strict: bool = False,
+    max_depth: int = _MAX_NESTING_DEPTH,
+    max_input_size: int | None = _MAX_INPUT_SIZE,
+    duplicate_keys: DuplicateKeyPolicy = "last",
+) -> Any:
+    """Read a file, repair its contents, and return the parsed Python value.
+
+    Args:
+        path: File path to read.
+        strict: When `True`, reject ambiguous repairs such as missing commas or
+            truncated containers.
+
+    Returns:
+        The parsed Python value.
+
+    Raises:
+        LagaError: If the file cannot be repaired into valid JSON.
+    """
+
+    file_path = Path(path)
+    return repair(
+        file_path.read_text(encoding="utf-8"),
+        strict=strict,
+        max_depth=max_depth,
+        max_input_size=max_input_size,
+        duplicate_keys=duplicate_keys,
+    )
+
+
 def main(argv: Iterable[str] | None = None) -> int:
     """Run a small command line interface for manual repair checks.
 
@@ -145,6 +178,11 @@ def main(argv: Iterable[str] | None = None) -> int:
         "--stdin",
         action="store_true",
         help="Read input from standard input",
+    )
+    parser.add_argument(
+        "--input",
+        type=Path,
+        help="Read input from a file instead of the positional argument",
     )
     parser.add_argument(
         "--strict", action="store_true", help="Reject ambiguous repairs"
@@ -179,13 +217,22 @@ def main(argv: Iterable[str] | None = None) -> int:
         help="Control how duplicate object keys are handled",
     )
     parser.add_argument(
+        "--output",
+        type=Path,
+        help="Write repaired JSON to a file",
+    )
+    parser.add_argument(
         "--quiet",
         action="store_true",
         help="Suppress normal output on success",
     )
     args = parser.parse_args(list(argv) if argv is not None else None)
 
-    if args.stdin or args.text is None or args.text == "-":
+    if args.stdin:
+        sample = sys.stdin.read()
+    elif args.input is not None:
+        sample = args.input.read_text(encoding="utf-8")
+    elif args.text is None or args.text == "-":
         sample = sys.stdin.read()
     else:
         sample = args.text
@@ -198,7 +245,9 @@ def main(argv: Iterable[str] | None = None) -> int:
             duplicate_keys=args.duplicate_keys,
             pretty=args.pretty,
         )
-        if not args.quiet:
+        if args.output is not None:
+            args.output.write_text(rendered + "\n", encoding="utf-8")
+        if args.output is None and not args.quiet:
             print(rendered)
     except LagaError as exc:
         print(str(exc), file=sys.stderr)
@@ -236,7 +285,7 @@ def _repair_text(
         raise LagaError(
             last_error.message,
             last_error.position,
-            _context_snippet(text, last_error.position),
+            context=_context_snippet(text, last_error.position),
         )
     raise last_error
 
@@ -268,11 +317,25 @@ def _check_input_size(text: str, *, max_input_size: int | None) -> None:
 def _with_context(error: LagaError, text: str) -> LagaError:
     if error.context is not None or error.position is None:
         return error
+    line, column = _position_to_line_column(text, error.position)
     return LagaError(
         error.message,
         error.position,
+        line,
+        column,
         _context_snippet(text, error.position),
     )
+
+
+def _position_to_line_column(text: str, position: int) -> tuple[int, int]:
+    bounded_position = max(0, min(position, len(text)) )
+    line = text.count("\n", 0, bounded_position) + 1
+    last_break = text.rfind("\n", 0, bounded_position)
+    if last_break == -1:
+        column = bounded_position + 1
+    else:
+        column = bounded_position - last_break
+    return line, column
 
 
 def _context_snippet(text: str, position: int, *, radius: int = 24) -> str:

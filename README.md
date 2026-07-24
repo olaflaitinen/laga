@@ -13,7 +13,7 @@ It is built for the real world: model output, hand-written config, copied snippe
 
 ## Supported Versions
 
-`laga` 0.1.3 supports Python 3.10 through 3.13.
+`laga` 0.1.4 supports Python 3.10 through 3.13.
 
 ## Install
 
@@ -52,9 +52,11 @@ laga --strict '{"a": 1,}'
 
 Use `--strict` when you want to reject ambiguous repairs instead of filling in gaps.
 Use `--pretty` to format output for humans, `--stdin` to read from standard input, and `--duplicate-keys error` when duplicate keys should fail.
+Use `--input` to read from a file and `--output` to write the repaired result back to disk.
 
 ```bash
 laga --stdin --pretty
+laga --input sample.txt --output fixed.json
 laga --max-depth 64 --max-input-size 10000 --duplicate-keys error '{"a": 1}'
 ```
 
@@ -64,6 +66,7 @@ laga --max-depth 64 --max-input-size 10000 --duplicate-keys error '{"a": 1}'
 | --- | --- | --- |
 | `laga.repair(text, strict=False)` | Python object | Repairs malformed JSON and returns Python data. |
 | `laga.repair_to_str(text, strict=False)` | `str` | Repairs malformed JSON and returns normalized JSON text. |
+| `laga.repair_file(path, strict=False)` | Python object | Reads a file and repairs its contents. |
 | `laga.loads(text, strict=False)` | Python object | Alias for `laga.repair`. |
 | `laga.LagaError` | Exception type | Raised when repair fails or input is unrecoverable. |
 
@@ -99,6 +102,16 @@ In strict mode, `laga` rejects ambiguous recoveries such as:
 - Use `duplicate_keys="error"` when you want duplicate object members to fail instead of being merged.
 - `laga` does not evaluate expressions or try to invent arbitrary JavaScript syntax.
 - The parser is intentionally conservative around malformed numbers and highly ambiguous text.
+
+## Quick Decision Guide
+
+| Situation | Best choice |
+| --- | --- |
+| You control the producer and the input is valid JSON | `json.loads` |
+| You have noisy LLM output, copied config, or prose around JSON | `laga.repair` |
+| You need to repair a file directly | `laga.repair_file` |
+| You want duplicate keys to fail | `duplicate_keys="error"` |
+| You want a human-friendly result | `repair_to_str(..., pretty=True)` |
 
 ## When To Use `laga`
 
