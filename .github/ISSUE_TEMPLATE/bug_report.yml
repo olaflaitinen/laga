@@ -1,0 +1,148 @@
+name: Bug report
+description: Report a reproducible bug in laga with enough detail to diagnose and fix it.
+title: "Bug: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug.
+
+        Please provide a minimal, reproducible example and include the exact input that triggers the problem.
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected area
+      description: Pick the part of laga that seems broken.
+      options:
+        - Public API
+        - CLI
+        - Parser / repair behavior
+        - Tokenizer
+        - Documentation
+        - Packaging / release
+        - Tests / CI
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      description: How much does this affect your use case?
+      options:
+        - Blocking
+        - High
+        - Medium
+        - Low
+        - Cosmetic
+    validations:
+      required: true
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: Describe the bug in one or two sentences.
+      placeholder: laga returns the wrong structure when ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: input
+    attributes:
+      label: Input that triggers the bug
+      description: Paste the smallest possible text sample that reproduces the issue.
+      render: text
+      placeholder: |
+        {name: 'Ada', roles: ['admin',],}
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected result
+      description: What should laga have returned or done instead?
+      placeholder: The input should be repaired to valid JSON and parse to ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual result
+      description: What happened instead. Include the exact error message or unexpected output.
+      placeholder: laga raised LagaError: ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: List the exact steps so someone else can reproduce the issue.
+      placeholder: |
+        1. Install laga
+        2. Run laga.repair(...) with the sample above
+        3. Observe the failure
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Share the runtime details that matter for reproduction.
+      placeholder: |
+        Python:
+        OS:
+        laga version:
+        Installation method:
+        Shell or editor:
+    validations:
+      required: true
+
+  - type: dropdown
+    id: reproducibility
+    attributes:
+      label: Reproducibility
+      description: How often does this happen?
+      options:
+        - Always
+        - Sometimes
+        - Rarely
+        - Only once
+    validations:
+      required: true
+
+  - type: textarea
+    id: workaround
+    attributes:
+      label: Workaround
+      description: If you found a workaround, describe it here.
+      placeholder: Using strict=False avoids the failure, but ...
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: Additional context
+      description: Add logs, stack traces, screenshots, or notes that may help.
+      placeholder: Any extra detail that could narrow down the root cause.
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Confirmation checklist
+      options:
+        - label: I have searched existing issues and did not find a duplicate.
+          required: true
+        - label: I have reduced the example to the smallest reproducible input I could.
+          required: true
+        - label: I am using the latest released version or I can explain why I am not.
+          required: true
+        - label: I am comfortable sharing the sample input publicly in this issue.
+          required: true
