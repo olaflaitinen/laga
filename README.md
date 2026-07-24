@@ -115,3 +115,13 @@ make build
 - API details: [docs/api.md](docs/api.md)
 - Usage examples: [docs/usage.md](docs/usage.md)
 - Contributing guide: [CONTRIBUTING.md](CONTRIBUTING.md)
+
+## Citation
+
+If you use `laga` in academic work, research notes, or other formal writing, please cite the repository using the metadata in [CITATION.cff](CITATION.cff).
+
+Suggested citation format:
+
+```text
+Gustav Olaf Yunus Laitinen-Fredriksson Lundström-Imanov. laga: Repair malformed JSON from language models and hand-written config. https://github.com/olaflaitinen/laga
+```

@@ -1,0 +1,31 @@
+cff-version: 1.2.0
+message: >-
+  If you use laga in academic work, research notes, or other formal writing,
+  please cite the project using the metadata below.
+title: "laga"
+version: "0.1.1"
+date-released: "2026-07-24"
+repository-code: "https://github.com/olaflaitinen/laga"
+url: "https://github.com/olaflaitinen/laga"
+abstract: >-
+  laga repairs malformed JSON and returns Python objects.
+keywords:
+  - json
+  - repair
+  - parser
+  - llm
+  - data cleanup
+authors:
+  - family-names: "Laitinen-Fredriksson Lundström-Imanov"
+    given-names: "Gustav Olaf Yunus"
+    alias: "olaflaitinen"
+preferred-citation:
+  type: software
+  title: "laga"
+  version: "0.1.1"
+  authors:
+    - family-names: "Laitinen-Fredriksson Lundström-Imanov"
+      given-names: "Gustav Olaf Yunus"
+      alias: "olaflaitinen"
+  year: 2026
+  url: "https://github.com/olaflaitinen/laga"

@@ -79,6 +79,7 @@ include = [
     "benchmarks",
     ".github",
     "README.md",
+    "CITATION.cff",
     "LICENSE",
     "CHANGELOG.md",
     "CONTRIBUTING.md",
