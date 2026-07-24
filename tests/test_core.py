@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import io
 import json
 
 import pytest
@@ -36,6 +37,11 @@ def test_repair_rules(text: str, expected: object) -> None:
 def test_repair_to_str_normalizes_output() -> None:
     text = "{name: 'Ada', roles: ['admin',], active: True}"
     assert laga.repair_to_str(text) == '{"name":"Ada","roles":["admin"],"active":true}'
+
+
+def test_repair_to_str_pretty_formats_output() -> None:
+    text = '{"a": 1}'
+    assert laga.repair_to_str(text, pretty=True) == '{\n  "a": 1\n}'
 
 
 def test_loads_is_alias() -> None:
@@ -76,16 +82,51 @@ def test_strict_mode_rejects_ambiguous_repairs(text: str, message: str) -> None:
 
 
 def test_unrecoverable_input_raises_laga_error() -> None:
-    with pytest.raises(LagaError, match="Unexpected identifier"):
+    with pytest.raises(LagaError, match="Unexpected identifier") as excinfo:
         laga.repair("not json at all")
+    assert excinfo.value.context is not None
+    assert "near" in str(excinfo.value)
 
 
 def test_duplicate_keys_use_last_value() -> None:
     assert laga.repair('{"a": 1, "a": 2}') == {"a": 2}
 
 
+def test_duplicate_keys_can_error() -> None:
+    with pytest.raises(LagaError, match="Duplicate key"):
+        laga.repair('{"a": 1, "a": 2}', duplicate_keys="error")
+
+
+def test_input_size_limit_is_enforced() -> None:
+    with pytest.raises(LagaError, match="maximum size"):
+        laga.repair('{"a": 1}', max_input_size=1)
+
+
 def test_deeply_nested_input_is_rejected() -> None:
     text = "[" * 260 + "0" + "]" * 260
+    tokens = core._Tokenizer(text, strict=False).tokenize()
+    parser = core._Parser(tokens, strict=False, max_depth=256)
     with pytest.raises(LagaError, match="too deeply nested"):
-        tokens = core._Tokenizer(text, strict=False).tokenize()
-        core._Parser(tokens, strict=False).parse()
+        parser.parse()
+
+
+def test_main_reads_stdin_and_pretty_prints(
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    monkeypatch.setattr("sys.stdin", io.StringIO('{"a": 1}'))
+    exit_code = core.main(["--stdin", "--pretty"])
+    captured = capsys.readouterr()
+    assert exit_code == 0
+    assert captured.out == '{\n  "a": 1\n}\n'
+
+
+def test_main_can_be_quiet(
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    monkeypatch.setattr("sys.stdin", io.StringIO('{"a": 1}'))
+    exit_code = core.main(["--stdin", "--quiet"])
+    captured = capsys.readouterr()
+    assert exit_code == 0
+    assert captured.out == ""
