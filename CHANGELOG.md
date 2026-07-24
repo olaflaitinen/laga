@@ -11,6 +11,18 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 - Repository citation metadata and README citation guidance.
 
+## [0.1.3] - 2026-07-24
+
+### Added
+
+- Expanded issue forms for bug reports, feature requests, usage questions, and documentation feedback.
+- More detailed repository metadata with a project contact email.
+- Release-prep guidance for the next version line.
+
+### Changed
+
+- Updated package metadata and citation records for the 0.1.3 update package.
+
 ## [0.1.2] - 2026-07-24
 
 ### Added

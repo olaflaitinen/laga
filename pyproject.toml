@@ -9,7 +9,7 @@ description = "Repair malformed JSON from language models and hand-written confi
 readme = "README.md"
 license = { file = "LICENSE" }
 requires-python = ">=3.10,<3.14"
-authors = [{ name = "Gustav Olaf Yunus Laitinen-Fredriksson Lundström-Imanov" }]
+authors = [{ name = "Gustav Olaf Yunus Laitinen-Fredriksson Lundström-Imanov", email = "yunus.imanov@metropolia.fi" }]
 keywords = ["json", "repair", "llm", "parser", "data-cleanup"]
 classifiers = [
     "Development Status :: 3 - Alpha",

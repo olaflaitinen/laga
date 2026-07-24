@@ -1,5 +1,11 @@
 blank_issues_enabled: false
 contact_links:
+  - name: Usage help
+    url: https://github.com/olaflaitinen/laga/discussions
+    about: Ask how to use laga, share examples, or confirm whether a repair is expected.
+  - name: Documentation feedback
+    url: https://github.com/olaflaitinen/laga/issues/new?template=documentation.yml
+    about: Report missing docs, confusing examples, or request clearer guidance.
   - name: Security reporting
     url: https://github.com/olaflaitinen/laga/security/advisories
     about: Use this for private security reports only.

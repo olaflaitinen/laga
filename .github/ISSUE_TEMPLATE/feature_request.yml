@@ -9,7 +9,7 @@ body:
       value: |
         Thanks for suggesting an improvement.
 
-        The most useful requests explain the current limitation, the user impact, and the exact behavior you want.
+        Strong feature requests explain the problem, the desired outcome, and the tradeoffs.
 
   - type: dropdown
     id: area
@@ -21,9 +21,11 @@ body:
         - CLI
         - Parser / repair behavior
         - Tokenizer
+        - Error handling
         - Documentation
         - Packaging / release
         - Tests / CI
+        - GitHub workflow
         - New capability
         - Other
     validations:
@@ -40,6 +42,51 @@ body:
         - Medium
         - Low
         - Nice to have
+    validations:
+      required: true
+
+  - type: dropdown
+    id: compatibility
+    attributes:
+      label: Compatibility goal
+      description: How should this behave relative to current releases?
+      options:
+        - Backward compatible only
+        - Minor compatible change
+        - Potentially breaking change
+        - Not sure
+    validations:
+      required: true
+
+  - type: dropdown
+    id: target-version
+    attributes:
+      label: Target version
+      description: Which release line should this land in?
+      options:
+        - 0.1.3
+        - 0.2.0
+        - 1.0.0
+        - Next patch release
+        - Future roadmap
+        - Not sure
+    validations:
+      required: true
+
+  - type: dropdown
+    id: surface
+    attributes:
+      label: Main surface
+      description: Where should the change show up most clearly?
+      options:
+        - Function signature
+        - CLI flag
+        - Error message
+        - Default behavior
+        - Configuration option
+        - New helper utility
+        - Documentation only
+        - Internal improvement
     validations:
       required: true
 
@@ -78,6 +125,38 @@ body:
         laga.repair('{name: "Ada"}')
         # could optionally return ...
 
+  - type: dropdown
+    id: input-style
+    attributes:
+      label: Input style
+      description: What kind of input should the feature focus on?
+      options:
+        - JSON object
+        - JSON array
+        - Markdown fenced block
+        - LLM response text
+        - Config file
+        - CLI input
+        - File input
+        - Multiple inputs
+    validations:
+      required: true
+
+  - type: dropdown
+    id: output-style
+    attributes:
+      label: Output style
+      description: What should the output look like?
+      options:
+        - Python object
+        - Compact JSON string
+        - Pretty-printed JSON
+        - Rich error object
+        - Exit code only
+        - Multiple formats
+    validations:
+      required: true
+
   - type: textarea
     id: alternatives
     attributes:
@@ -106,6 +185,13 @@ body:
         - Includes tests/docs ...
 
   - type: textarea
+    id: migration
+    attributes:
+      label: Migration or rollout notes
+      description: If this is a behavioral change, describe how users should migrate.
+      placeholder: Existing callers should ...
+
+  - type: textarea
     id: context
     attributes:
       label: Additional context
@@ -120,5 +206,9 @@ body:
           required: true
         - label: I explained the problem and not just the solution.
           required: true
-        - label: I included a concrete example or user story.
+        - label: I included at least one concrete example or user story.
+          required: true
+        - label: I considered compatibility and rollout impact.
+          required: true
+        - label: I am comfortable with the request being public.
           required: true

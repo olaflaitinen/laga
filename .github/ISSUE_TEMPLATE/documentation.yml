@@ -1,0 +1,135 @@
+name: Documentation improvement
+description: Report unclear docs, missing examples, or suggest a documentation rewrite.
+title: "Docs: "
+labels:
+  - documentation
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template to improve docs, examples, wording, or onboarding flow.
+
+  - type: dropdown
+    id: doc-area
+    attributes:
+      label: Documentation area
+      description: Which documentation surface needs work?
+      options:
+        - README
+        - API docs
+        - Usage docs
+        - Contributing guide
+        - Changelog
+        - GitHub templates
+        - Website / repository metadata
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: issue-type
+    attributes:
+      label: Doc issue type
+      description: What kind of documentation problem is this?
+      options:
+        - Missing example
+        - Unclear explanation
+        - Incorrect example
+        - Broken link
+        - Too short
+        - Too long
+        - Needs more screenshots
+        - Needs better structure
+    validations:
+      required: true
+
+  - type: dropdown
+    id: audience
+    attributes:
+      label: Audience
+      description: Who is this documentation for?
+      options:
+        - New user
+        - Existing user
+        - Contributor
+        - Maintainer
+        - Release manager
+        - Not sure
+    validations:
+      required: true
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: Briefly describe the documentation improvement you want.
+      placeholder: The README should explain ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: current-text
+    attributes:
+      label: Current text or section
+      description: Quote the part that should change if possible.
+      render: text
+      placeholder: |
+        Current wording or link...
+
+  - type: textarea
+    id: proposed-text
+    attributes:
+      label: Proposed replacement
+      description: Suggest the wording, example, or structure you want.
+      render: text
+      placeholder: |
+        Proposed wording...
+
+  - type: dropdown
+    id: requested-change
+    attributes:
+      label: Requested change
+      description: What kind of change should be made?
+      options:
+        - Rewrite
+        - Add example
+        - Add warning
+        - Add note
+        - Reorganize section
+        - Add link
+        - Remove confusing text
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: How important is this doc fix?
+      options:
+        - Critical
+        - High
+        - Medium
+        - Low
+        - Nice to have
+    validations:
+      required: true
+
+  - type: textarea
+    id: why
+    attributes:
+      label: Why it matters
+      description: Explain the confusion or friction this causes.
+      placeholder: Users may think ... because ...
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Confirmation checklist
+      options:
+        - label: I checked whether the issue already exists in another doc section.
+          required: true
+        - label: I included the exact text or link that should change.
+          required: true
+        - label: I am comfortable with the proposed text being public.
+          required: true

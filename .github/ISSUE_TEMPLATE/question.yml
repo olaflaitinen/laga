@@ -1,0 +1,136 @@
+name: Usage question
+description: Ask how to use laga, confirm expected behavior, or troubleshoot a workflow.
+title: "Question: "
+labels:
+  - question
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form for usage questions, troubleshooting, and behavior confirmation.
+
+        If you are reporting a bug or requesting a new capability, choose the matching template instead.
+
+  - type: dropdown
+    id: topic
+    attributes:
+      label: Topic
+      description: What do you need help with?
+      options:
+        - CLI usage
+        - Python API
+        - strict mode behavior
+        - duplicate key handling
+        - error messages
+        - packaging / installation
+        - release / PyPI
+        - GitHub workflow
+        - Documentation
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: urgency
+    attributes:
+      label: Urgency
+      description: How urgent is the question?
+      options:
+        - Blocking me now
+        - Needed soon
+        - Nice to understand
+        - Just curious
+    validations:
+      required: true
+
+  - type: dropdown
+    id: execution-mode
+    attributes:
+      label: Execution mode
+      description: How are you using laga?
+      options:
+        - Python code
+        - CLI
+        - GitHub Actions
+        - Local script
+        - Notebook
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: strict-choice
+    attributes:
+      label: strict setting
+      description: Which mode are you using?
+      options:
+        - strict=False
+        - strict=True
+        - Not using strict mode
+        - Not sure
+    validations:
+      required: true
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Your question
+      description: Ask the question as clearly as possible.
+      placeholder: I expected ... but got ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: example
+    attributes:
+      label: Example input or command
+      description: Share the exact snippet or command you ran.
+      render: text
+      placeholder: |
+        laga --stdin --pretty
+
+  - type: dropdown
+    id: result
+    attributes:
+      label: Result category
+      description: What kind of result did you get?
+      options:
+        - Successful repair
+        - Unexpected repair
+        - LagaError
+        - CLI output issue
+        - Install issue
+        - Unknown
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Include the details that matter for answering the question.
+      placeholder: |
+        Python:
+        laga version:
+        OS:
+        Editor / shell:
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Add any extra notes, links, screenshots, or observations.
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Confirmation checklist
+      options:
+        - label: I searched the README, docs, and existing issues first.
+          required: true
+        - label: I included the exact command or code that I ran.
+          required: true
+        - label: I understand this template is for usage questions, not bug reports.
+          required: true
