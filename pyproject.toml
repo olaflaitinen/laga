@@ -1,0 +1,121 @@
+[build-system]
+requires = ["hatchling>=1.24"]
+build-backend = "hatchling.build"
+
+[project]
+name = "laga"
+dynamic = ["version"]
+description = "Repair malformed JSON from language models and hand-written config."
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.9,<3.14"
+authors = [{ name = "Gustav Olaf Yunus Laitinen-Fredriksson Lundström-Imanov" }]
+keywords = ["json", "repair", "llm", "parser", "data-cleanup"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/olaflaitinen/laga"
+Documentation = "https://github.com/olaflaitinen/laga/tree/main/docs"
+Source = "https://github.com/olaflaitinen/laga"
+"Issue Tracker" = "https://github.com/olaflaitinen/laga/issues"
+
+[project.optional-dependencies]
+test = [
+    "coverage[toml]>=7.6",
+    "hypothesis>=6.108",
+    "pytest>=8.3",
+    "pytest-cov>=5.0",
+]
+lint = [
+    "mypy>=1.11",
+    "ruff>=0.6.9",
+]
+docs = [
+    "mkdocs>=1.6",
+    "mkdocs-material>=9.5",
+]
+dev = [
+    "build>=1.2",
+    "pre-commit>=3.8",
+    "coverage[toml]>=7.6",
+    "hypothesis>=6.108",
+    "mkdocs>=1.6",
+    "mkdocs-material>=9.5",
+    "mypy>=1.11",
+    "pytest>=8.3",
+    "pytest-cov>=5.0",
+    "ruff>=0.6.9",
+]
+
+[project.scripts]
+laga = "laga.core:main"
+
+[tool.hatch.version]
+path = "src/laga/_version.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/laga"]
+include = ["src/laga/py.typed"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "src/laga",
+    "tests",
+    "docs",
+    "examples",
+    "benchmarks",
+    ".github",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md",
+    "CONTRIBUTING.md",
+    "CODE_OF_CONDUCT.md",
+    "SECURITY.md",
+    "pyproject.toml",
+    "Makefile",
+    ".pre-commit-config.yaml",
+]
+
+[tool.ruff]
+line-length = 88
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "RUF"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+files = ["src/laga"]
+show_error_codes = true
+warn_unused_configs = true
+
+[tool.pytest.ini_options]
+addopts = "-ra --cov=laga --cov-report=term-missing --cov-report=xml"
+testpaths = ["tests"]
+
+[tool.coverage.run]
+branch = true
+source = ["laga"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = false
+precision = 2
