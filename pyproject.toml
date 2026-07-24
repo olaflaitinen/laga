@@ -8,7 +8,7 @@ dynamic = ["version"]
 description = "Repair malformed JSON from language models and hand-written config."
 readme = "README.md"
 license = { file = "LICENSE" }
-requires-python = ">=3.9,<3.14"
+requires-python = ">=3.10,<3.14"
 authors = [{ name = "Gustav Olaf Yunus Laitinen-Fredriksson Lundström-Imanov" }]
 keywords = ["json", "repair", "llm", "parser", "data-cleanup"]
 classifiers = [
@@ -17,7 +17,6 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
@@ -92,7 +91,7 @@ include = [
 
 [tool.ruff]
 line-length = 88
-target-version = "py39"
+target-version = "py310"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "RUF"]

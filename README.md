@@ -8,6 +8,8 @@ Large language models and hand-written configuration often produce almost-JSON w
 
 ## Install
 
+`laga` 0.1.1 supports Python 3.10 through 3.13.
+
 ```bash
 python -m pip install -e ".[dev]"
 ```

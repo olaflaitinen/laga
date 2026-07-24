@@ -7,11 +7,17 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-07-24
+
 ### Added
 
 - Repository cleanup, documentation refresh, and GitHub workflow improvements.
 - Root ignore file for Python build and cache artifacts.
 - Project ownership metadata updated for the `olaflaitinen` repository.
+
+### Changed
+
+- Dropped Python 3.9 support; laga 0.1.1 targets Python 3.10 through 3.13.
 
 ## [0.1.0] - 2026-07-24
 
