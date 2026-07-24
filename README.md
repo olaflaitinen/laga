@@ -13,7 +13,7 @@ It is built for the real world: model output, hand-written config, copied snippe
 
 ## Supported Versions
 
-`laga` 0.1.1 supports Python 3.10 through 3.13.
+`laga` 0.1.2 supports Python 3.10 through 3.13.
 
 ## Install
 
@@ -51,6 +51,12 @@ laga --strict '{"a": 1,}'
 ```
 
 Use `--strict` when you want to reject ambiguous repairs instead of filling in gaps.
+Use `--pretty` to format output for humans, `--stdin` to read from standard input, and `--duplicate-keys error` when duplicate keys should fail.
+
+```bash
+laga --stdin --pretty
+laga --max-depth 64 --max-input-size 10000 --duplicate-keys error '{"a": 1}'
+```
 
 ## API
 
@@ -90,6 +96,7 @@ In strict mode, `laga` rejects ambiguous recoveries such as:
 
 - `json.loads` is still the best choice when you control the producer and the input is already valid JSON.
 - Duplicate keys use last-value-wins behavior, matching Python dict semantics.
+- Use `duplicate_keys="error"` when you want duplicate object members to fail instead of being merged.
 - `laga` does not evaluate expressions or try to invent arbitrary JavaScript syntax.
 - The parser is intentionally conservative around malformed numbers and highly ambiguous text.
 
@@ -123,5 +130,5 @@ If you use `laga` in academic work, research notes, or other formal writing, ple
 Suggested citation format:
 
 ```text
-Gustav Olaf Yunus Laitinen-Fredriksson Lundström-Imanov. laga: Repair malformed JSON from language models and hand-written config. https://github.com/olaflaitinen/laga
+	Laitinen-Fredriksson Lundström-Imanov, G. O. Y. (2026). laga (Version 0.1.2) [Computer software]. https://github.com/olaflaitinen/laga
 ```

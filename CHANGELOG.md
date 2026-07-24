@@ -11,6 +11,18 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 - Repository citation metadata and README citation guidance.
 
+## [0.1.2] - 2026-07-24
+
+### Added
+
+- CLI stdin support, pretty output, and explicit input control flags.
+- Configurable input size, nesting depth, and duplicate-key handling.
+- Richer error context for malformed inputs.
+
+### Changed
+
+- Improved the default developer experience around malformed JSON repair and CLI usage.
+
 ## [0.1.1] - 2026-07-24
 
 ### Added
