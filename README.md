@@ -34,15 +34,7 @@ python -m pip install -e ".[dev]"
 ```python
 import laga
 
-text = """Here is the result:
-```json
-{
-  'name': 'Ada',
-  'active': True,
-  'roles': ['admin', 'writer',],
-}
-```
-"""
+text = "{name: 'Ada', active: True, roles: ['admin', 'writer',],}"
 
 data = laga.repair(text)
 print(data)
