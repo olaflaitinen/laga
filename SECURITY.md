@@ -6,7 +6,7 @@ Security fixes are provided for the latest released version and the current deve
 
 ## Reporting a Vulnerability
 
-Please report security issues privately using GitHub Security Advisories if available. If that is not available, email security@olaflaitinen.dev with a clear description, reproduction steps, and any relevant context.
+Please report security issues privately using GitHub Security Advisories if available. If that is not available, email yunus.imanov@metropolia.fi with a clear description, reproduction steps, and any relevant context.
 
 Do not open a public issue for a security vulnerability.
 
