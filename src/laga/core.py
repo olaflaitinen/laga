@@ -8,7 +8,15 @@ from typing import Any, Literal
 from .errors import LagaError
 from .tokenizer import _Token, _Tokenizer
 
-__all__ = ["loads", "main", "repair", "repair_file", "repair_to_str"]
+__all__ = [
+    "loads",
+    "main",
+    "repair",
+    "repair_file",
+    "repair_jsonl",
+    "repair_jsonl_to_str",
+    "repair_to_str",
+]
 
 _MAX_NESTING_DEPTH = 256
 _MAX_INPUT_SIZE: int | None = None
@@ -124,6 +132,63 @@ def repair_to_str(
     )
 
 
+def repair_jsonl(
+    text: str,
+    *,
+    strict: bool = False,
+    max_depth: int = _MAX_NESTING_DEPTH,
+    max_input_size: int | None = _MAX_INPUT_SIZE,
+    duplicate_keys: DuplicateKeyPolicy = "last",
+) -> list[Any]:
+    """Repair newline-delimited JSON records and return Python values."""
+
+    _validate_limits(
+        max_depth=max_depth,
+        max_input_size=max_input_size,
+        duplicate_keys=duplicate_keys,
+    )
+    _check_input_size(text, max_input_size=max_input_size)
+    return [
+        repair(
+            line,
+            strict=strict,
+            max_depth=max_depth,
+            max_input_size=max_input_size,
+            duplicate_keys=duplicate_keys,
+        )
+        for line in text.splitlines()
+        if line.strip()
+    ]
+
+
+def repair_jsonl_to_str(
+    text: str,
+    *,
+    strict: bool = False,
+    max_depth: int = _MAX_NESTING_DEPTH,
+    max_input_size: int | None = _MAX_INPUT_SIZE,
+    duplicate_keys: DuplicateKeyPolicy = "last",
+    pretty: bool = False,
+) -> str:
+    """Repair newline-delimited JSON records and return newline-delimited JSON."""
+
+    records = repair_jsonl(
+        text,
+        strict=strict,
+        max_depth=max_depth,
+        max_input_size=max_input_size,
+        duplicate_keys=duplicate_keys,
+    )
+    if pretty:
+        return "\n\n".join(
+            json.dumps(record, ensure_ascii=False, indent=2) for record in records
+        )
+    return "\n".join(
+        json.dumps(record, ensure_ascii=False, separators=(",", ":"))
+        for record in records
+    )
+
+
 loads = repair
 
 
@@ -185,6 +250,11 @@ def main(argv: Iterable[str] | None = None) -> int:
         help="Read input from a file instead of the positional argument",
     )
     parser.add_argument(
+        "--jsonl",
+        action="store_true",
+        help="Treat each non-empty input line as a JSON value",
+    )
+    parser.add_argument(
         "--strict", action="store_true", help="Reject ambiguous repairs"
     )
     output_group = parser.add_mutually_exclusive_group()
@@ -242,14 +312,24 @@ def main(argv: Iterable[str] | None = None) -> int:
     else:
         sample = args.text
     try:
-        rendered = repair_to_str(
-            sample,
-            strict=args.strict,
-            max_depth=args.max_depth,
-            max_input_size=args.max_input_size,
-            duplicate_keys=args.duplicate_keys,
-            pretty=args.pretty,
-        )
+        if args.jsonl:
+            rendered = repair_jsonl_to_str(
+                sample,
+                strict=args.strict,
+                max_depth=args.max_depth,
+                max_input_size=args.max_input_size,
+                duplicate_keys=args.duplicate_keys,
+                pretty=args.pretty,
+            )
+        else:
+            rendered = repair_to_str(
+                sample,
+                strict=args.strict,
+                max_depth=args.max_depth,
+                max_input_size=args.max_input_size,
+                duplicate_keys=args.duplicate_keys,
+                pretty=args.pretty,
+            )
         if args.in_place:
             if args.input is None:
                 raise LagaError("--in-place requires --input", 0)

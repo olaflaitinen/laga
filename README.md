@@ -9,11 +9,11 @@ It is built for the real world: model output, hand-written config, copied snippe
 - Repairs common JSON mistakes such as trailing commas, missing commas, single quotes, unquoted keys, comments, fences, smart quotes, and truncated containers.
 - Tries the standard library first, so valid JSON stays fast and strict.
 - Keeps the public API small: `repair`, `repair_to_str`, `loads`, and `LagaError`.
-- Ships with a CLI, type information, tests, docs, and CI.
+- Ships with a CLI, JSONL support, type information, tests, docs, and CI.
 
 ## Supported Versions
 
-`laga` 0.1.5 supports Python 3.10 through 3.13.
+`laga` 0.1.6 supports Python 3.10 through 3.13.
 
 ## Install
 
@@ -53,11 +53,13 @@ laga --strict '{"a": 1,}'
 Use `--strict` when you want to reject ambiguous repairs instead of filling in gaps.
 Use `--pretty` to format output for humans, `--stdin` to read from standard input, and `--duplicate-keys error` when duplicate keys should fail.
 Use `--input` to read from a file, `--output` to write the repaired result back to disk, or `--in-place` to overwrite the input file directly.
+Use `--jsonl` when each non-empty line is a separate JSON record and you want one repaired value per line.
 
 ```bash
 laga --stdin --pretty
 laga --input sample.txt --output fixed.json
 laga --input sample.txt --in-place --pretty
+laga --jsonl --stdin
 laga --max-depth 64 --max-input-size 10000 --duplicate-keys error '{"a": 1}'
 ```
 
@@ -67,6 +69,8 @@ laga --max-depth 64 --max-input-size 10000 --duplicate-keys error '{"a": 1}'
 | --- | --- | --- |
 | `laga.repair(text, strict=False)` | Python object | Repairs malformed JSON and returns Python data. |
 | `laga.repair_to_str(text, strict=False)` | `str` | Repairs malformed JSON and returns normalized JSON text. |
+| `laga.repair_jsonl(text, strict=False)` | `list[object]` | Repairs newline-delimited JSON records and returns Python values. |
+| `laga.repair_jsonl_to_str(text, strict=False)` | `str` | Repairs newline-delimited JSON records and returns newline-delimited JSON text. |
 | `laga.repair_file(path, strict=False)` | Python object | Reads a file and repairs its contents. |
 | `laga.loads(text, strict=False)` | Python object | Alias for `laga.repair`. |
 | `laga.LagaError` | Exception type | Raised when repair fails or input is unrecoverable. |
@@ -110,6 +114,7 @@ In strict mode, `laga` rejects ambiguous recoveries such as:
 | --- | --- |
 | You control the producer and the input is valid JSON | `json.loads` |
 | You have noisy LLM output, copied config, or prose around JSON | `laga.repair` |
+| You have JSONL or line-delimited records to repair | `laga.repair_jsonl` |
 | You need to repair a file directly | `laga.repair_file` |
 | You want duplicate keys to fail | `duplicate_keys="error"` |
 | You want a human-friendly result | `repair_to_str(..., pretty=True)` |
@@ -144,5 +149,5 @@ If you use `laga` in academic work, research notes, or other formal writing, ple
 Suggested citation format:
 
 ```text
-Laitinen-Fredriksson Lundström-Imanov, G. O. Y. (2026). laga (Version 0.1.5) [Computer software]. https://github.com/olaflaitinen/laga
+Laitinen-Fredriksson Lundström-Imanov, G. O. Y. (2026). laga (Version 0.1.6) [Computer software]. https://github.com/olaflaitinen/laga
 ```

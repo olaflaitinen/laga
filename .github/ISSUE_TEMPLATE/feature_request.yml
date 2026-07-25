@@ -64,6 +64,7 @@ body:
       label: Target version
       description: Which release line should this land in?
       options:
+        - 0.1.6
         - 0.1.5
         - 0.1.4
         - 0.2.0

@@ -11,6 +11,17 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 - Repository citation metadata and README citation guidance.
 
+## [0.1.6] - 2026-07-25
+
+### Added
+
+- JSONL repair helpers for newline-delimited records, plus `--jsonl` CLI support.
+- Public `repair_jsonl` and `repair_jsonl_to_str` helpers for batch-style workflows.
+
+### Changed
+
+- Updated versioned docs, examples, and release notes to reflect the broader 0.1.6 surface.
+
 ## [0.1.5] - 2026-07-24
 
 ### Added

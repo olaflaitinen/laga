@@ -44,6 +44,16 @@ def test_repair_to_str_pretty_formats_output() -> None:
     assert laga.repair_to_str(text, pretty=True) == '{\n  "a": 1\n}'
 
 
+def test_repair_jsonl_returns_list() -> None:
+    text = '{name: "Ada"}\n{"active": True}\n'
+    assert laga.repair_jsonl(text) == [{"name": "Ada"}, {"active": True}]
+
+
+def test_repair_jsonl_to_str_compacts_records() -> None:
+    text = '{name: "Ada"}\n{"active": True}\n'
+    assert laga.repair_jsonl_to_str(text) == '{"name":"Ada"}\n{"active":true}'
+
+
 def test_repair_file_reads_file(tmp_path) -> None:
     path = tmp_path / "sample.json"
     path.write_text('{"a": 1,}', encoding="utf-8")
@@ -146,6 +156,17 @@ def test_main_reads_input_file_and_writes_output(
     assert exit_code == 0
     assert captured.out == ""
     assert output_path.read_text(encoding="utf-8") == expected
+
+
+def test_main_reads_jsonl_from_stdin(
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    monkeypatch.setattr("sys.stdin", io.StringIO('{name: "Ada"}\n{"active": True}\n'))
+    exit_code = core.main(["--jsonl", "--stdin"])
+    captured = capsys.readouterr()
+    assert exit_code == 0
+    assert captured.out == '{"name":"Ada"}\n{"active":true}\n'
 
 
 def test_main_can_update_input_file_in_place(
